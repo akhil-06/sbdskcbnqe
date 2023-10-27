@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Currency Converter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    #converter {
+      margin: 20px;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+      display: inline-block;
+    }
+
+    #result {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div id="converter">
+    <h2>Currency Converter</h2>
+    <label for="amount">Amount:</label>
+    <input type="number" id="amount" placeholder="Enter amount" oninput="convertCurrency()"><br><br>
+    <label for="from">From:</label>
+    <select id="from" onchange="convertCurrency()">
+      <option value="usd">USD</option>
+      <option value="eur">EUR</option>
+      <option value="gbp">GBP</option>
+    </select><br><br>
+    <label for="to">To:</label>
+    <select id="to" onchange="convertCurrency()">
+      <option value="usd">USD</option>
+      <option value="eur">EUR</option>
+      <option value="gbp">GBP</option>
+    </select><br><br>
+    <p>Converted Amount: <span id="result"></span></p>
+  </div>
+
+  <script>
+    function convertCurrency() {
+      const amount = parseFloat(document.getElementById("amount").value);
+      const fromCurrency = document.getElementById("from").value;
+      const toCurrency = document.getElementById("to").value;
+
+      // Exchange rates for demonstration purposes
+      const exchangeRates = {
+        usd: {
+          eur: 0.85,
+          gbp: 0.75,
+        },
+        eur: {
+          usd: 1.18,
+          gbp: 0.89,
+        },
+        gbp: {
+          usd: 1.33,
+          eur: 1.12,
+        },
+      };
+
+      if (isNaN(amount)) {
+        alert("Please enter a valid amount.");
+        document.getElementById("result").textContent = "";
+      } else if (fromCurrency === toCurrency) {
+        document.getElementById("result").textContent = amount.toFixed(2);
+      } else if (exchangeRates[fromCurrency] && exchangeRates[fromCurrency][toCurrency]) {
+        const convertedAmount = amount * exchangeRates[fromCurrency][toCurrency];
+        document.getElementById("result").textContent = convertedAmount.toFixed(2);
+      } else {
+        alert("Unsupported currency conversion.");
+        document.getElementById("result").textContent = "";
+      }
+    }
+  </script>
+</body>
+</html>
